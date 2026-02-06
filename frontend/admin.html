@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Админка — Дом посуточно</title>
+
+  <link rel="stylesheet" href="./assets/styles.css" />
+  <style>
+    .admin-wrap { padding-top: 26px; }
+    .admin-grid { display:grid; grid-template-columns: 1fr 1fr; gap:14px; align-items:start; }
+    @media (max-width: 900px){ .admin-grid{ grid-template-columns:1fr; } }
+
+    .row { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+    .table-wrap { overflow:auto; border-radius: var(--radius); border:1px solid var(--border); }
+    table { width:100%; border-collapse:collapse; min-width: 900px; background: rgba(255,255,255,.03); }
+    th, td { padding:12px; border-bottom:1px solid rgba(255,255,255,.08); text-align:left; vertical-align:top; }
+    th { font-size:12px; color: var(--muted); font-weight:600; letter-spacing:.02em; }
+    td { font-size:14px; color: var(--text); }
+    .tag { display:inline-flex; padding:6px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.04); color: var(--muted); font-size:12px; }
+    .danger { border-color: rgba(239,68,68,.35); background: rgba(239,68,68,.10); color: rgba(255,255,255,.85); }
+    .ok { border-color: rgba(34,197,94,.35); background: rgba(34,197,94,.10); color: rgba(255,255,255,.85); }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 12px; }
+    .small { font-size: 12px; color: var(--muted); }
+    .right { margin-left:auto; }
+  </style>
+
+  <!-- Flatpickr (CDN) для удобного выбора диапазона блокировки -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="container header__inner">
+      <div class="logo">🔐 Админка</div>
+      <div class="right row">
+        <a class="btn" href="./index.html">← На сайт</a>
+        <button class="btn" id="logoutBtn" type="button" style="display:none">Выйти</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="admin-wrap">
+    <div class="container">
+      <div class="section__head">
+        <h2>Управление бронированиями</h2>
+        <p>Вход по паролю. Брони и блокировки живут в базе на сервере.</p>
+      </div>
+
+      <!-- Login -->
+      <section id="loginCard" class="card">
+        <div class="row">
+          <div style="flex:1; min-width: 240px;">
+            <div class="field" style="margin:0">
+              <label>Пароль админа</label>
+              <input id="adminPass" class="input" type="password" placeholder="ADMIN_PASSWORD из .env" />
+              <div class="small">Пароль хранится локально в браузере (localStorage) только на твоём устройстве.</div>
+            </div>
+          </div>
+          <div>
+            <button class="btn btn--primary" id="loginBtn" type="button">Войти</button>
+          </div>
+        </div>
+        <div id="loginMsg" class="hint" style="margin-top:10px"></div>
+      </section>
+
+      <!-- Admin UI -->
+      <section id="adminUI" style="display:none;">
+        <div class="admin-grid" style="margin-top:14px;">
+          <div class="card">
+            <div class="row">
+              <h3 style="margin:0">Блокировка дат</h3>
+              <span class="tag">Гости не смогут выбрать эти даты</span>
+            </div>
+
+            <div class="field" style="margin-top:12px;">
+              <label>Диапазон</label>
+              <input id="blockRange" class="input" placeholder="YYYY-MM-DD — YYYY-MM-DD" />
+            </div>
+
+            <div class="field">
+              <label>Причина (необязательно)</label>
+              <input id="blockReason" class="input" placeholder="ремонт / личное / уборка..." />
+            </div>
+
+            <div class="row">
+              <button class="btn btn--primary" id="blockBtn" type="button">Заблокировать</button>
+              <span id="blockMsg" class="hint"></span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="row">
+              <h3 style="margin:0">Действия</h3>
+            </div>
+
+            <div class="row" style="margin-top:12px;">
+              <button class="btn" id="refreshBtn" type="button">Обновить список</button>
+
+              <div style="flex:1; min-width: 240px;">
+                <input id="searchInput" class="input" placeholder="Поиск: телефон / имя / дата (YYYY-MM-DD)" />
+              </div>
+
+              <span class="tag ok" id="countTag">0 броней</span>
+            </div>
+
+            <div class="small" style="margin-top:10px;">
+              Подсказка: чтобы снять бронь — нажми “Отменить”. Даты снова станут доступными.
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:14px;">
+          <div class="row" style="margin-bottom:10px;">
+            <h3 style="margin:0">Брони</h3>
+            <span class="tag">Автобронь: бронь создаётся сразу</span>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Даты</th>
+                  <th>Гостей</th>
+                  <th>Контакты</th>
+                  <th>Комментарий</th>
+                  <th>Цена</th>
+                  <th>ID</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="bookingsTbody">
+                <tr><td colspan="7" class="small">Пока пусто…</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div id="adminMsg" class="hint" style="margin-top:10px;"></div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="./assets/admin.js"></script>
+</body>
+</html>

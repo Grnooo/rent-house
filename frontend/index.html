@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Дом посуточно</title>
+
+  <link rel="stylesheet" href="./assets/styles.css" />
+
+  <!-- Swiper (CDN) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+  <!-- Flatpickr (CDN) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="container header__inner">
+      <div class="logo">🏡 Дом посуточно</div>
+      <nav class="nav">
+        <a href="#gallery">Фото</a>
+        <a href="#amenities">Удобства</a>
+        <a href="#booking">Календарь</a>
+        <a href="#prices">Цены</a>
+        <a href="#contacts">Контакты</a>
+      </nav>
+      <a class="btn btn--primary" href="#booking">Забронировать</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero__inner">
+        <h1>Уютный дом для отдыха</h1>
+        <p>Мангал • Баня • Тишина • Парковка</p>
+        <a class="btn btn--primary" href="#booking">Выбрать даты</a>
+      </div>
+      <div class="hero__bg"></div>
+    </section>
+
+    <section class="section" id="gallery">
+      <div class="container">
+        <div class="section__head">
+          <h2>Фото</h2>
+          <p>Листай — всё плавно и красиво.</p>
+        </div>
+
+        <div class="swiper">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide"><img src="./assets/images/1.jpg" alt=""></div>
+            <div class="swiper-slide"><img src="./assets/images/2.jpg" alt=""></div>
+            <div class="swiper-slide"><img src="./assets/images/3.jpg" alt=""></div>
+            <div class="swiper-slide"><img src="./assets/images/4.jpg" alt=""></div>
+            <div class="swiper-slide"><img src="./assets/images/5.jpg" alt=""></div>
+            <div class="swiper-slide"><img src="./assets/images/6.jpg" alt=""></div>
+            <div class="swiper-slide"><img src="./assets/images/7.jpg" alt=""></div>
+            <div class="swiper-slide"><img src="./assets/images/8.jpg" alt=""></div>
+            <div class="swiper-slide"><img src="./assets/images/9.jpg" alt=""></div>
+            <div class="swiper-slide"><img src="./assets/images/10.jpg" alt=""></div>
+            <div class="swiper-slide"><img src="./assets/images/11.jpg" alt=""></div>
+            <div class="swiper-slide"><img src="./assets/images/12.jpg" alt=""></div>
+            <div class="swiper-slide"><img src="./assets/images/13.jpg" alt=""></div>
+            <div class="swiper-slide"><img src="./assets/images/14_1.jpg" alt=""></div>
+            <div class="swiper-slide"><img src="./assets/images/14.jpg" alt=""></div>
+            <div class="swiper-slide"><img src="./assets/images/15.jpg" alt=""></div>
+            <div class="swiper-slide"><img src="./assets/images/16.jpg" alt=""></div>
+            <div class="swiper-slide"><img src="./assets/images/17.jpg" alt=""></div>
+            <div class="swiper-slide"><img src="./assets/images/18.jpg" alt=""></div>
+            <div class="swiper-slide"><img src="./assets/images/19.jpg" alt=""></div>
+            <div class="swiper-slide"><img src="./assets/images/20.jpg" alt=""></div>
+            <div class="swiper-slide"><img src="./assets/images/21.jpg" alt=""></div>
+
+          </div>
+          <div class="swiper-pagination"></div>
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="amenities">
+      <div class="container">
+        <div class="section__head">
+          <h2>Удобства</h2>
+          <p>Коротко и по делу</p>
+        </div>
+
+        <div class="grid">
+          <div class="card">👥 До 8 гостей</div>
+          <div class="card">🔥 Мангал / зона BBQ</div>
+          <div class="card">🛁 Баня</div>
+          <div class="card">📶 Wi-Fi</div>
+          <div class="card">🚗 Парковка</div>
+          <div class="card">🕒 Заезд 15:00 / Выезд 12:00</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="booking">
+      <div class="container">
+        <div class="section__head">
+          <h2>Календарь и бронирование</h2>
+          <p>Свободные даты видны сразу, бронь подтверждается автоматически.</p>
+        </div>
+
+        <div class="booking">
+          <div class="booking__left card">
+            <div class="field">
+              <label>Выберите даты</label>
+              <input id="dateRange" class="input" placeholder="Заезд — Выезд" />
+              <div class="hint" id="availabilityHint">Загружаем занятость…</div>
+            </div>
+          </div>
+
+          <div class="booking__right card">
+            <div class="field">
+              <label>Гостей</label>
+              <select id="guests" class="input">
+                <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+                <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+                <option value="7">7</option><option value="8">8</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label>Имя</label>
+              <input id="name" class="input" placeholder="Как к вам обращаться" />
+            </div>
+
+            <div class="field">
+              <label>Телефон</label>
+              <input id="phone" class="input" placeholder="+7 / +34 …" />
+            </div>
+
+            <div class="field">
+              <label>Комментарий (необязательно)</label>
+              <textarea id="comment" class="input" rows="3" placeholder="Например: будем с собакой"></textarea>
+            </div>
+
+            <div class="pricebox">
+              <div><span>Ночей:</span> <b id="nights">—</b></div>
+              <div><span>Итого:</span> <b id="total">—</b></div>
+              <div class="muted">Будни: 10 000 • Выходные: 15 000 • Мин. ночей: 1</div>
+            </div>
+
+            <button id="bookBtn" class="btn btn--primary btn--full" disabled>
+              Забронировать
+            </button>
+
+            <div id="result" class="result" hidden></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="prices">
+      <div class="container">
+        <div class="section__head">
+          <h2>Цены</h2>
+        </div>
+        <div class="grid">
+          <div class="card"><b>Будни:</b> 10 000 / ночь</div>
+          <div class="card"><b>Выходные:</b> 15 000 / ночь</div>
+          <div class="card"><b>Мин. ночей:</b> 1</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contacts">
+      <div class="container">
+        <div class="section__head">
+          <h2>Контакты</h2>
+        </div>
+        <div class="card">
+          <div class="muted">Связь : 89268996164 | 89269788242</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Swiper (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+  <!-- Flatpickr (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+  <!-- Твой код -->
+  <script src="./assets/app.js"></script>
+</body>
+</html>
